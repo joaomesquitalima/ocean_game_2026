@@ -47,10 +47,12 @@ correcao = 1;
 
 
 }
-
-
-
-	sprite_index = spr_default_possuido;
+	if vivo{
+	sprite_index = spr_default_possuido_animado;
+	}
+	else{
+		sprite_index = spr_morto;
+	}
 
 // INPUT (só se NÃO estiver andando)
 
@@ -67,18 +69,22 @@ if (!moving)
     {
         var next_x = x + h * tile_size;
         var next_y = y + v * tile_size;
-
+		
         // checa colisão NO TILE DESTINO
-        if (!place_meeting(next_x, next_y, obj_wall))
+        if !place_meeting(next_x, next_y, obj_wall)
         {
             target_x = next_x;
             target_y = next_y;
             moving = true;
-        }
+			passos -=1
+			audio_play_sound(snd_passos,1,0)
+        }	
+		
     }
 }
 else
 {
+   if passos >=0{
    var direcao = point_direction(x, y, target_x, target_y);
 
     x += lengthdir_x(move_speed, direcao);
@@ -91,6 +97,8 @@ else
         y = target_y;
         moving = false;
     }
+	
+   }
 }
 	
 
@@ -98,10 +106,16 @@ else
 }
 else
 {
+	if movimento = "parado" && vivo{
+		x+=0;
+		y+=0;
+		sprite_index = spr_guard
+		
+	}
 	
 	if (movimento == "horizontal" && vivo)
 	{
-		if (!place_meeting(x + vel * dir, y, obj_wall))
+		if (!place_meeting(x + vel * dir, y, obj_wall) || !place_meeting(x + vel * dir, y, obj_invisible))
 		{
 			x += vel * dir;
 		}
@@ -113,7 +127,7 @@ else
 
 	if (movimento == "vertical" && vivo)
 	{
-		if (!place_meeting(x, y + vel * dir, obj_wall))
+		if (!place_meeting(x, y + vel * dir, obj_wall) || !place_meeting(x, y + vel * dir, obj_invisible))
 		{
 			y += vel * dir;
 		}
@@ -137,7 +151,7 @@ else
 		}
 	
 	
-		if (place_meeting(x + dx, y + dy, obj_wall))
+		if (place_meeting(x + dx, y + dy, obj_wall) || place_meeting(x + dx, y + dy, obj_invisible) )
 		{
 			estado = (estado + 1) mod 4;
 		}
@@ -150,6 +164,13 @@ else
 			case 2: x -= vel; break;
 			case 3: y -= vel; break;
 		}
+	}
+	
+	if(movimento == "looking" && vivo){
+		x+=0;
+		y+=0;
+		visao()
+
 	}
 
 }
