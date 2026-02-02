@@ -1,3 +1,3 @@
 movimento = "parado"
 
-passos = 5;
+passos = 6;

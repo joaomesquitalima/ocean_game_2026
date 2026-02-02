@@ -48,7 +48,7 @@ correcao = 1;
 
 }
 	if vivo{
-	sprite_index = spr_default_possuido_animado;
+	sprite_index = spr_default_possuido;
 	}
 	else{
 		sprite_index = spr_morto;
@@ -58,15 +58,22 @@ correcao = 1;
 
 if (!moving)
 {
-
+	
     var h = keyboard_check(ord("D")) - keyboard_check(ord("A"));
     var v = keyboard_check(ord("S")) - keyboard_check(ord("W"));
+	
+	if h == 1{image_angle = 90}
+	if h == -1{image_angle = -90}
+	if v == 1{image_angle = 0}
+	if v == -1{image_angle = 180}
+	sprite_index = spr_default_possuido_animado;
 
     // trava diagonal
     if (h != 0) v = 0;
 
     if (h != 0 || v != 0)
     {
+		
         var next_x = x + h * tile_size;
         var next_y = y + v * tile_size;
 		
@@ -79,6 +86,10 @@ if (!moving)
 			passos -=1
 			audio_play_sound(snd_passos,1,0)
         }	
+	
+	
+	
+		
 		
     }
 }
@@ -89,7 +100,8 @@ else
 
     x += lengthdir_x(move_speed, direcao);
     y += lengthdir_y(move_speed, direcao);
-
+	sprite_index = spr_default_possuido_animado;
+	
     // chegou no centro do tile
     if (point_distance(x, y, target_x, target_y) <= move_speed)
     {
@@ -154,22 +166,24 @@ else
 		if (place_meeting(x + dx, y + dy, obj_wall) || place_meeting(x + dx, y + dy, obj_invisible) )
 		{
 			estado = (estado + 1) mod 4;
+			
 		}
 	
 		// anda
 		switch (estado)
 		{
-			case 0: x += vel; break;
-			case 1: y += vel; break;
-			case 2: x -= vel; break;
-			case 3: y -= vel; break;
+			case 0: x += vel; image_angle = 90; break;
+			case 1: y += vel; image_angle = 0; break;
+			case 2: x -= vel; image_angle = 270; break;
+			case 3: y -= vel; image_angle = 180; break;
 		}
 	}
 	
 	if(movimento == "looking" && vivo){
 		x+=0;
 		y+=0;
-		visao()
+		visao();
+
 
 	}
 

@@ -1,0 +1,1 @@
+acionado = 0

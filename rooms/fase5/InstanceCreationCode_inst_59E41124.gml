@@ -1,0 +1,1 @@
+normalmente_aberto = 0

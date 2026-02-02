@@ -11,3 +11,6 @@ if ativados == total
 sprite_index = spr_exit
 	
 }
+else{
+	sprite_index = spr_exit_closed
+}

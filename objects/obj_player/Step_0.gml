@@ -53,4 +53,5 @@ if (controlando != noone)
 	y = controlando.y;
 }
 
+
 //if place_meeting(x,y,obj_botao){}
